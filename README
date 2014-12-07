@@ -1,4 +1,4 @@
-autocount.py is my laziness embodied.
+autocount is my laziness embodied.
 we started this research project thinking to count EVERY UPDATE given by select political causes on tw, fb, and email.
 Unfortunately for us, and fortunately for this project, it proved to be FAR too much to count each status by hand.
 Much less, to categorize each and get a wordcount. Folly! I would say. Or madness!
@@ -27,4 +27,7 @@ Steps:
 
 TODO
 	-create logins template once structure is finalized
-	-
+	-make main.py run the three checks in parallel.
+	-make main.py more general
+	-combine the separate credential files into one
+

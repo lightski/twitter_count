@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 """
     autocount -> count_tw.py
-    gets and interprets tw updates and such for a
-     twitter accounts api. 
+    gets and interprets tw updates and such for a twitter account api
     called by main.py
 
 -=-=-=-=-=-=-get_metrics overview-=-=-=-=-=-=-
@@ -26,11 +25,12 @@ import twitter
 from datetime import datetime, date, time, timedelta
 import time
 
-def get_metrics(api, file_name):
+def get_metrics(api, file_name, account_name):
     '''
-        params: 
-         api       - active twitter connection api as definted by 'pydoc twitter.api'
-         file_name - name of file to save results to 
+    '    params: 
+    '     api          - active twitter connection api as defined by 'pydoc twitter.api'
+    '     file_name    - name of file to save results to 
+    '     account_name - @tw handle, for record keeping
     '''
 
     # first_day is first date of expiriment 11/16/2014
@@ -42,7 +42,7 @@ def get_metrics(api, file_name):
         save_file = open(file_name, mode='w')
         print "Saving results to " + file_name
         save_file.write("Twitter expiriment results.\n Gathered on " + str(date.today()) + "\n")
-        save_file.write(" Right Wing Twitter account \n")
+        save_file.write("@" + account_name + " on Twitter \n")
     except IOError:
         # quit because some later stuff requires a file to write to
         print "Error: cannot save " + file_name + " due to i/o error"

@@ -3,9 +3,9 @@
     autocount -> count_tw.py
     gets and interprets tw updates and such for a
      twitter accounts api. 
-"""
-"""
--=-=-=-=-=-=-program overview-=-=-=-=-=-=-
+    called by main.py
+
+-=-=-=-=-=-=-get_metrics overview-=-=-=-=-=-=-
 for every "friend" this account has
     for currrent_day in dates (of the experiment)
         fetch 200 updates starting with current_tweet
@@ -27,11 +27,17 @@ from datetime import datetime, date, time, timedelta
 import time
 
 def get_metrics(api, file_name):
+    '''
+        params: 
+         api       - active twitter connection api as definted by 'pydoc twitter.api'
+         file_name - name of file to save results to 
+    '''
+
     # first_day is first date of expiriment 11/16/2014
     # we'll be counting back from present to first_day, so this might be a little confusing
     first_day = date(2014,11,16)
 
-    # file to save results
+    # open file to save results
     try:
         save_file = open(file_name, mode='w')
         print "Saving results to " + file_name

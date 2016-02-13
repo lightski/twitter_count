@@ -20,8 +20,7 @@ for every "friend" this account has
 write results to file
 """
 
-# tw api. pip install twitter
-import twitter
+import twitter # tw api. pip install twitter
 from datetime import datetime, date, time, timedelta
 import time
 
@@ -33,8 +32,8 @@ def get_metrics(api, file_name, account_name):
     '     account_name - @tw handle, for record keeping
     '''
 
-    # first_day is first date of expiriment 11/16/2014
-    # we'll be counting back from present to first_day, so this might be a little confusing
+    # to get an accurate tally we count back from present to first_day
+    # first_day of experiment: 11/16/2014
     first_day = date(2014,11,16)
 
     # open file to save results
@@ -50,7 +49,6 @@ def get_metrics(api, file_name, account_name):
         quit()
      
     users = api.GetFriends()
-
     for u in users:
         # so we know who we're dealing with
         id_string =  "\n\nuser id: " + str(u.id)
@@ -60,6 +58,8 @@ def get_metrics(api, file_name, account_name):
         # set current_day to tomorrow, to solve accounts in different timezones who post from the future 
         #  that is, the future relative to this script's location
         current_day = date.today() + timedelta(days=1)
+        # record first "current day". later, record this after changing days
+        save_file.write(" " + str(current_day) + "  ") 
 
         first_run = True
         # keep track of final tweet each day so we can get the ones older than that
@@ -69,10 +69,7 @@ def get_metrics(api, file_name, account_name):
 
         # go backwards in time from latest tweets to earliest
         while(current_day >= first_day):
-
-            # record current day
-            save_file.write(" " + str(current_day) + "  ") 
-             
+ 
             # get wait time and kick back for a bit
             print "resting so we don't exhaust twitter..."
             time.sleep(api.GetAverageSleepTime("/statuses/home_timeline"))
@@ -87,25 +84,22 @@ def get_metrics(api, file_name, account_name):
 
             for s in statuses:
                 # record id as though it's your last (solves rare >200 tweets/day bug)
-                last_id = s.id
-
+                last_id = s.id 
                 # status time format: dow m dom t tz y
                 # substring removes the timezone, +0000, because %z wouldn't cooperate
-    #            print "    Now substringing: " + s.created_at
+                #print "  Now substringing: " + s.created_at
                 substr1 = s.created_at[0:20]
                 substr2 = s.created_at[25:]
                 creation_str = substr1 + substr2
                 # create date based on modified time string
                 creation_time = datetime.strptime(creation_str,"%a %b %d %H:%M:%S %Y")
 
-                print "  now comparing: " + str(creation_time) + " to " + str(current_day)
+                #print "  now comparing: " + str(creation_time) + " to " + str(current_day)
                 # if tweet happened on day we're looking for, record metrics
                 if creation_time.date() == current_day:
-                    # get info
                     daily_total += 1
                     #  word count calculations based on splitting update text by space and getting length of resulting list
                     save_file.write(str(len(s.GetText().split())) + ",")
-
                 # otherwise, it's time to move on
                 else:
                     # print metrics and write them to file
@@ -123,11 +117,7 @@ def get_metrics(api, file_name, account_name):
                     # record current status word count
                     save_file.write(str(len(s.GetText().split())) + ",")
 
-
     save_file.write("\n\nEnd of results")
     save_file.close()
 # end of function def
 
-# TODO
-# add additional metrics, ie type of post, etc.???
-# move on to fb

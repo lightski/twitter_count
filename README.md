@@ -5,7 +5,6 @@ This project is not very feature-filled, but it is a great starting point for us
 
 ## Installation
 1. Have Python 2 installed and get the Twitter python package like so:
-
 ```
 	pip install twitter	
 ```
